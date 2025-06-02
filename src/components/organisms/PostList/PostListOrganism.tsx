@@ -1,5 +1,6 @@
 import { usePost } from "../../../hooks/post/usePost";
 import { Post } from "../../../types";
+import { PostListLoadingAtom } from "../../atoms/Loading/PostListLoadingAtom";
 import { PostItemMolecule } from "../../molecules/PostItem/PostItemMolecule";
 
 export const PostListOrganism = () => {
@@ -14,7 +15,7 @@ export const PostListOrganism = () => {
                Items List
             </h2>
          </div>
-         {isLoading && <p>Caragando</p>}
+         {isLoading && <PostListLoadingAtom />}
          <div className="divide-y divide-gray-200">
             {data &&
                data.map((item: Post) => (
