@@ -38,37 +38,45 @@ export const PostFormOrganism = () => {
 
    return (
       <>
-         <div>
-            <h2>New Item</h2>
-         </div>
-         <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-               <div>
-                  <label>Título</label>
-                  <div>
-                     <InputAtom
-                        errors={errors}
-                        label="title"
-                        register={register}
-                        required
-                     />
+         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+               <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+                  New Item
+               </h2>
+            </div>
+            <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="mb-1">
+                     <label className="block text-sm/6 font-medium text-gray-900">
+                        Título
+                     </label>
+                     <div className="mt-2">
+                        <InputAtom
+                           errors={errors}
+                           label="title"
+                           register={register}
+                           required
+                        />
+                     </div>
                   </div>
-               </div>
-               <div>
-                  <label>Descripción</label>
-                  <div>
-                     <TextAreaAtom
-                        errors={errors}
-                        label="body"
-                        register={register}
-                        required
-                     />
+                  <div className="mb-1">
+                     <label className="block text-sm/6 font-medium text-gray-900">
+                        Descripción
+                     </label>
+                     <div className="mt-2">
+                        <TextAreaAtom
+                           errors={errors}
+                           label="body"
+                           register={register}
+                           required
+                        />
+                     </div>
                   </div>
-               </div>
-               <div>
-                  <ButtonAtom type="submit">Add Item</ButtonAtom>
-               </div>
-            </form>
+                  <div className="mt-4">
+                     <ButtonAtom type="submit">Add Item</ButtonAtom>
+                  </div>
+               </form>
+            </div>
          </div>
       </>
    );
