@@ -1,46 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import {
-   QueryClient,
-   QueryClientProvider,
-   useQuery,
-   useMutation,
-   useQueryClient,
-} from "react-query";
-import axios from "axios";
+import ReactDOM from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { usePost } from "./hooks/post/usePost";
+import { useAddPost } from "./hooks/post/useAddPost";
+
 import { useForm } from "react-hook-form";
-import "./index.css";
-
-const fetchItems = async () => {
-   const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
-   );
-   return response.data;
-};
-
-const addItem = async (newItem) => {
-   const response = await axios.post(
-      "https://jsonplaceholder.typicode.com/posts",
-      newItem
-   );
-   return response.data;
-};
-
-const useItems = () => {
-   return useQuery("items", fetchItems, {
-      staleTime: 1000 * 60 * 5,
-      cacheTime: 1000 * 60 * 10,
-   });
-};
-
-const useAddItem = () => {
-   const queryClient = useQueryClient();
-   return useMutation(addItem, {
-      onSuccess: () => {
-         queryClient.invalidateQueries("items");
-      },
-   });
-};
 
 const Item = ({ item }) => {
    return (
@@ -62,12 +26,12 @@ const ItemList = ({ items }) => {
 };
 
 const Home = () => {
-   const { data: items, error, isLoading } = useItems();
+   const { data: items, error, isLoading } = usePost();
    const { register, handleSubmit, reset } = useForm();
-   const mutation = useAddItem();
+   const mutation = useAddPost();
 
    const onSubmit = (data) => {
-      mutation.mutate(data);
+      mutation.addPost(data);
       reset();
    };
 
@@ -98,9 +62,8 @@ const App = () => {
    );
 };
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
    <React.StrictMode>
       <App />
-   </React.StrictMode>,
-   document.getElementById("root")
+   </React.StrictMode>
 );
