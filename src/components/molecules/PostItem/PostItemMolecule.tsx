@@ -8,7 +8,7 @@ export const PostItemMolecule = ({ item }: { item: Post }) => {
                <p className="text-sm font-semibold text-gray-900">
                   {item.title}
                </p>
-               <p className="mt-1 text-xs text-gray-500">{item.body}</p>
+               <p className="mt-1 text-sm text-gray-500">{item.body}</p>
             </div>
          </div>
       </div>

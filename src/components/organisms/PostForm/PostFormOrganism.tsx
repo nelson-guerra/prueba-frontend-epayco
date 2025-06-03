@@ -11,8 +11,8 @@ import { ButtonAtom } from "../../atoms/Button/ButtonAtom";
 
 const schema = yup
    .object({
-      title: yup.string().required("Ingrese un título"),
-      body: yup.string().required("Ingrese una descripción"),
+      title: yup.string().required("Title is required"),
+      body: yup.string().required("Description is required"),
    })
    .required();
 
@@ -41,20 +41,20 @@ export const PostFormOrganism = () => {
 
    return (
       <>
-         <div className="flex min-h-full flex-col px-6 py-6">
+         <div className="flex min-h-full flex-col pt-6 pb-12">
             <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
                New Item
             </h2>
-            <div className="mt-5 sm:mx-auto">
+            <div className="mt-2 sm:mt-6 sm:mx-auto">
                <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="flex sm:flex-row flex-col space-y-6 gap-x-2"
                >
-                  <div>
+                  <div className="mb-0">
                      <label className="block text-sm/6 font-medium text-gray-900">
-                        Título
+                        Title
                      </label>
-                     <div className="mt-2">
+                     <div className="mt-1">
                         <InputAtom
                            errors={errors}
                            label="title"
@@ -63,11 +63,11 @@ export const PostFormOrganism = () => {
                         />
                      </div>
                   </div>
-                  <div>
+                  <div className="mb-0">
                      <label className="block text-sm/6 font-medium text-gray-900">
-                        Descripción
+                        Description
                      </label>
-                     <div className="mt-2">
+                     <div className="mt-1">
                         <TextAreaAtom
                            errors={errors}
                            label="body"
@@ -76,7 +76,7 @@ export const PostFormOrganism = () => {
                         />
                      </div>
                   </div>
-                  <div className="flex items-center mb-4 flex-none">
+                  <div className="flex items-center mt-4 sm:mt-1.5 flex-none">
                      <ButtonAtom type="submit">Add Item</ButtonAtom>
                   </div>
                </form>

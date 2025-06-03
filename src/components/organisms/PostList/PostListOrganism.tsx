@@ -21,7 +21,7 @@ export const PostListOrganism = () => {
 
    return (
       <>
-         <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-2">
+         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
                Items List
             </h2>
