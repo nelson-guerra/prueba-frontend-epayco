@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
-import { useAddPost } from "../../../hooks/post/useAddPost";
+import { useAppDispatch } from "../../../redux/hooks";
+import { addPost } from "../../../redux/states/post";
 import { Post } from "../../../types/index";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -16,6 +17,8 @@ const schema = yup
    .required();
 
 export const PostFormOrganism = () => {
+   const dispatch = useAppDispatch();
+
    const {
       register,
       handleSubmit,
@@ -25,28 +28,29 @@ export const PostFormOrganism = () => {
       resolver: yupResolver(schema),
    });
 
-   const mutation = useAddPost<Post>();
-
    const onSubmit = (data: Post) => {
-      //console.log(data);
-      mutation.addPost({
-         title: data.title,
-         body: data.body,
-      });
+      dispatch(
+         addPost({
+            id: Math.floor(Math.random() * (1000 - 100) + 100),
+            title: data.title,
+            body: data.body,
+         })
+      );
       reset();
    };
 
    return (
       <>
-         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-               <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-                  New Item
-               </h2>
-            </div>
-            <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="mb-1">
+         <div className="flex min-h-full flex-col px-6 py-6">
+            <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+               New Item
+            </h2>
+            <div className="mt-5 sm:mx-auto">
+               <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex sm:flex-row flex-col space-y-6 gap-x-2"
+               >
+                  <div>
                      <label className="block text-sm/6 font-medium text-gray-900">
                         Título
                      </label>
@@ -59,7 +63,7 @@ export const PostFormOrganism = () => {
                         />
                      </div>
                   </div>
-                  <div className="mb-1">
+                  <div>
                      <label className="block text-sm/6 font-medium text-gray-900">
                         Descripción
                      </label>
@@ -72,7 +76,7 @@ export const PostFormOrganism = () => {
                         />
                      </div>
                   </div>
-                  <div className="mt-4">
+                  <div className="flex items-center mb-4 flex-none">
                      <ButtonAtom type="submit">Add Item</ButtonAtom>
                   </div>
                </form>

@@ -1,12 +1,23 @@
-import { usePost } from "../../../hooks/post/usePost";
+import { useEffect } from "react";
 import { Post } from "../../../types";
 import { PostListLoadingAtom } from "../../atoms/Loading/PostListLoadingAtom";
 import { PostItemMolecule } from "../../molecules/PostItem/PostItemMolecule";
+import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
+import { fetchPostsAsync } from "../../../redux/states/post";
 
 export const PostListOrganism = () => {
-   const { data, error, isLoading } = usePost<Post>();
+   const dispatch = useAppDispatch();
+   const {
+      posts: data,
+      loading,
+      error,
+   } = useAppSelector((state) => state.post);
 
-   if (error) return <div>Error: {error.message}</div>;
+   useEffect(() => {
+      dispatch(fetchPostsAsync());
+   }, [dispatch]);
+
+   if (error) return <div>Error: {error}</div>;
 
    return (
       <>
@@ -15,7 +26,7 @@ export const PostListOrganism = () => {
                Items List
             </h2>
          </div>
-         {isLoading && <PostListLoadingAtom />}
+         {loading && <PostListLoadingAtom />}
          <div className="divide-y divide-gray-200">
             {data &&
                data.map((item: Post) => (
