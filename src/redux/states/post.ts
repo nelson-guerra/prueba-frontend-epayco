@@ -13,19 +13,19 @@ export const fetchPostsAsync = createAsyncThunk('post/fetchPosts', async () => {
 
 export const PostEmptyState: {
    posts: Post[];
-   loading: boolean;
-   error: string;
+   status: 'idle' | 'pending' | 'succeeded' | 'rejected';
+   error: string | null;
 } = {
    posts: [],
-   loading: false,
-   error: '',
+   status: 'idle',
+   error: null,
 };
 
 export const postSlice = createSlice({
    name: 'post',
    initialState: PostEmptyState,
    reducers: {
-      addPost: (state, action) => {
+      addNewPost: (state, action) => {
          state.posts.unshift(action.payload);
       },
       resetPost: () => PostEmptyState,
@@ -33,18 +33,18 @@ export const postSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(fetchPostsAsync.pending, (state) => {
-            state.loading = true;
+            state.status = 'pending';
          })
          .addCase(fetchPostsAsync.fulfilled, (state, action) => {
-            state.loading = false;
+            state.status = 'succeeded';
             state.posts = action.payload;
          })
          .addCase(fetchPostsAsync.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.error.message || 'Falló la carga de datos';
+            state.status = 'rejected';
+            state.error = action.error.message ?? null;
          });
    },
 });
 
 export const postReducer = postSlice.reducer;
-export const { addPost, resetPost } = postSlice.actions;
+export const { addNewPost, resetPost } = postSlice.actions;

@@ -1,22 +1,22 @@
 import { useForm } from "react-hook-form";
-import { useAppDispatch } from "../../../redux/hooks";
-import { addPost } from "../../../redux/states/post";
-import { Post } from "../../../types/index";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { InputAtom } from "../../atoms/Input/InputAtom";
 import { TextAreaAtom } from "../../atoms/TextArea/TextAreaAtom";
 import { ButtonAtom } from "../../atoms/Button/ButtonAtom";
+import { Post } from "../../../types/index";
 
-const schema = yup
-   .object({
-      title: yup.string().required("Title is required"),
-      body: yup.string().required("Description is required"),
-   })
-   .required();
+type Props = {
+   handleAddNewPost: (data: Post) => void;
+};
 
-export const PostFormOrganism = () => {
-   const dispatch = useAppDispatch();
+export const PostFormOrganism = ({ handleAddNewPost }: Props) => {
+   const schema = yup
+      .object({
+         title: yup.string().trim().required("Title is required"),
+         body: yup.string().trim().required("Description is required"),
+      })
+      .required();
 
    const {
       register,
@@ -28,19 +28,17 @@ export const PostFormOrganism = () => {
    });
 
    const onSubmit = (data: Post) => {
-      dispatch(
-         addPost({
-            id: Math.floor(Math.random() * (1000 - 100) + 100),
-            title: data.title,
-            body: data.body,
-         })
-      );
+      handleAddNewPost({
+         id: Math.floor(Math.random() * (1000 - 100) + 100),
+         title: data.title,
+         body: data.body,
+      });
       reset();
    };
 
    return (
-      <div className="flex min-h-full flex-col pt-6 pb-12">
-         <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+      <div className="flex flex-col pt-6 pb-12">
+         <h2 className="text-center text-2xl font-bold text-gray-900">
             New Item
          </h2>
          <div className="mt-2 sm:mt-6 sm:mx-auto">
